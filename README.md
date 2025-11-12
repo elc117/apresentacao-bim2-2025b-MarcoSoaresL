@@ -37,4 +37,70 @@ class Turtle implements Runnable
 Thread t = new Thread(new Turtle("Donatello"));
 ```
 
-Show, agora que temos as duas threads, fica fácil de entender o determinismo, ou a falta dele. O que acontece é que ambas as Threads entram em uma fila, controlada pelo escalonador, que decide, podemos pensar que de maneira aleatória, qual thread será executada, ou receberá tempo de execução. Nesse sentido, percebe-se que como é imprevisível, não há como saber o resultado antes de executar o código
+Show, agora que temos as duas threads, fica fácil de entender o determinismo, ou a falta dele. O que acontece é que ambas as Threads entram em uma fila, controlada pelo escalonador, que decide, podemos pensar que de maneira aleatória, qual thread será executada, ou receberá tempo de execução. Nesse sentido, percebe-se que como é imprevisível, não há como saber o resultado antes de executar o código.
+
+A  próxima tarefa era adicionar uma nova classe, foi bastante simples, apenas copiamos o código da classe abaixo:
+```java
+class Golden_Lion_Tamarin implements Runnable{
+    private String name;
+
+    public Golden_Lion_Tamarin(String name){
+        this.name = name;
+    }
+
+    private void runLikeTamarin() {
+        System.out.println(name + " is running medium");
+    }
+
+    public void run(){
+        System.out.println(name + " Golden_Lion_Tamarin is at the start of the race!");
+        for (int pos = 10; pos > 0; pos--) {
+            runLikeTamarin();
+            System.out.println(name + " is at position " + pos);
+        }
+        System.out.println(name + "  Golden Lion Tamarin finished the race!");
+    }
+}
+```
+e na Thread race
+```java
+Thread glt = new Thread(new Golden_Lion_Tamarin("Lilith"));
+glt.start();
+```
+
+O segundo exercício era de refatoração, para criar uma super classe AnimalRunner e derivar as três classes de animais dela. Esse exercício também foi bem fácil, pois os códigos já estavam prontos e apenas tivemos que mover para a superclasse e criar os métodos de polimorfismo para cada animal. 
+```java
+Class AnimalRunner extends Thread{
+    protected String name;
+    protected String animal;
+    public AnimalRunner(String name, String animal){
+        this.name = name;
+        this.animal = animal;
+    }
+
+    protected void RunAnimal(String name){
+        System.out.println(name + "correndo");
+    }
+
+    public void run(){
+        for (int pos = 10; pos > 0; pos--) {
+            RunAnimal(name);
+            System.out.println(name + " is at position " + pos);
+        }
+        System.out.println(name + " " + animal + " finished the race!");
+    }
+}
+```
+
+```java
+class Rabbit extends AnimalRunner {
+    public Rabbit(String name, String animal) {
+        super(name, animal);
+    }
+    @Override
+    public void RunAnimal(String name) {
+        System.out.println(name + " is running fast");
+    }
+}
+```
+
