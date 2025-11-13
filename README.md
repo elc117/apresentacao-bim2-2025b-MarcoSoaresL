@@ -66,6 +66,7 @@ e na Thread race
 Thread glt = new Thread(new Golden_Lion_Tamarin("Lilith"));
 glt.start();
 ```
+![Exc2](AnotherThread.gif)
 
 O segundo exercício era de refatoração, para criar uma super classe AnimalRunner e derivar as três classes de animais dela. Esse exercício também foi bem fácil, pois os códigos já estavam prontos e apenas tivemos que mover para a superclasse e criar os métodos de polimorfismo para cada animal. 
 ```java
@@ -102,6 +103,7 @@ class Rabbit extends AnimalRunner {
     }
 }
 ```
+![Exc3](BetterThread.gif)
 
 O terceiro exercício era analisar dois códigos que geram a imagem de um Conjunto de Mandelbrot, o programa gera duas imagens, mas essas sempre serão iguais, uma vez que ele a aplicação matemática do problema é determinística. Sendo assim, o uso de um maior número de threads é para aumentar a velocidade do processamento.
 Um dos testes mais interessantes que achei para essa etapa é sobre o número de threads, nesse sentido, fiquei com dúvida sobre isso, o que realmente é que está causando a dependência, nesse sentido, podemos pensar em alguns tipos de dependendência:
