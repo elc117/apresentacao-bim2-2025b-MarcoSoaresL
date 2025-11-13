@@ -6,7 +6,6 @@ O primeiro questionamento foi sobre a questão do determinismo na aplicação, n
 Para entender esse comportamento, torna-se necessário primeiro entender o que são Threads, se olharmos no Google, veremos que há uma série de definições formais.
 
 ![Threads google](Threads.png)
-
 Mas, em síntese, pode-se dizer que Threads são dois programas funcionando ao mesmo tempo, entretanto, os objetos e variáveis são compartilhados, ou seja, perceba a diferença nessas duas situações:
 1) Programas diferentes: Atleta A corre a Maratona de Floripa e Atleta B corre a maratona de Santa Maria. Ambos podem ficar em primeiro lugar.
 2) Threads (Concorrência): Atleta A corre a Maratona de Floripa e o Atleta B também corre a mesma maratona. Quando um ficar em primeiro lugar, o outro já não pode obter essa posição.
@@ -104,3 +103,11 @@ class Rabbit extends AnimalRunner {
 }
 ```
 
+O terceiro exercício era analisar dois códigos que geram a imagem de um Conjunto de Mandelbrot, o programa gera duas imagens, mas essas sempre serão iguais, uma vez que ele a aplicação matemática do problema é determinística. Sendo assim, o uso de um maior número de threads é para aumentar a velocidade do processamento.
+Um dos testes mais interessantes que achei para essa etapa é sobre o número de threads, nesse sentido, fiquei com dúvida sobre isso, o que realmente é que está causando a dependência, nesse sentido, podemos pensar em alguns tipos de dependendência:
+1) Dependência de Dados: Não existe aqui no Mandelbrot.
+2) Dependência Física: Aparentemente sinto que estamos enfrentando algo desse tipo aqui.
+Para isso, algumas ideias que surgiram são o seguinte: podemos pensar simplesmente o Conjunto de Mandelbrot é um mapa e estamos calculando os pixels desse mapa (o que realmente é verdade), nesse sentido, o cálculo do valor que deve ser inserido nesse pixel é independente, mas o hardware que faz esse cálculo e a "tela" // "mapa" são compartilhados, com isso, enfrentamos dois problemas, ou eu acho que enfrentamos:
+1) Context Switching (https://www.youtube.com/watch?v=vTgccrbYHYs): Acredito que aqui temos o problema de que o alto número de threads acaba fazendo o sistema ter que realizar trocar mais frequentes, com isso, precisamos salvar as variáveis, ponteiros, etc e depois começar a execução do próximo thread, ou seja, um alto número de threads ocasiona que temos mais tempo salvando as variáveis do que realmente fazendo computações;
+2) False Sharing (https://www.youtube.com/watch?v=WDIkqP4JbkE&t=2168s): Correlacionando com o que o matheus explicou na quinta, a cache hoje em dia tem um bit de modified, além disso, os dados são armazenados de forma linear e com mais de 1 dado por linha, ou seja, a linha 1 pode ter 4 dados, mas se eu for acessar o segundo e o primeiro já tiver sido acessado pelo primeiro, vai ser necessário acessar a memória principal e fazer a escrita/leitura.
+![mandelbrot](mandelbrot_multi_thread.png)
